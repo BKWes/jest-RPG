@@ -4,21 +4,15 @@ const Potion = require('../lib/Potion');
 
 jest.mock('../lib/Potion');
 
-test('gets players stats as an object', () => {
+test('subtracts from players health', () => {
     const player = new Player('Dave');
+    const oldHealth = player.health;
 
-    expect(player.getStats()).toHaveProperty('potions');
-    expect(player.getStats()).toHaveProperty('health');
-    expect(player.getStats()).toHaveProperty('strength');
-    expect(player.getStats()).toHaveProperty('agility');
-});
+    player.reduceHealth(5);
 
-test('gets inventory from player or returns false', () => {
-    const player = new Player('Dave');
+    expect(player.health).toBe(oldHealth - 5);
 
-    expect(player.getInventory()).toEqual(expect.any(Array));
+    player.reduceHealth(99999);
 
-    player.inventory = [];
-
-    expect(player.getInventory()).toEqual(false);
+    expect(player.health).toBe(0);
 });
